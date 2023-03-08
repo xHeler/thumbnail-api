@@ -5,6 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Setup .env file
+        run: |
+          mv .env.example .env
       - name: Build docker
         run: docker compose build
       - name: Run isort
