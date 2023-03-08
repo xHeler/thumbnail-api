@@ -1,0 +1,6 @@
+.*
+!.coveragerc
+!.env
+.venv
+.git
+.gitignore

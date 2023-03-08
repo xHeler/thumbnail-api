@@ -1,0 +1,9 @@
+-r base.txt
+
+# Developer Tools
+ipdb==0.13.11
+ipython==8.11.0
+flake8==6.0.0
+isort==5.10.1
+black==23.1.0
+pre-commit==3.0.2
