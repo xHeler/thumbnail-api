@@ -49,6 +49,8 @@ jobs:
         with:
           path: /opt/hostedtoolcache/Python/3.10.8/x64/ # This path is specific to Ubuntu
           key: python-${{ hashFiles('requirements/local.txt') }}-${{ hashFiles('requirements/base.txt') }}
+      - name: Update pip
+        run: pip install --upgrade pip setuptools==58
       - name: Install dependencies
         run: pip install -r requirements/local.txt
       - name: Run isort
