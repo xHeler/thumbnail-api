@@ -20,6 +20,7 @@ django-filter==22.1
 # Static and Media Storage
 django-storages==1.13.2
 boto3==1.26.85
+Pillow==9.4.0
 
 # Testing
 mock==5.0.1

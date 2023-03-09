@@ -23,6 +23,7 @@ class Common(Configuration):
         # Your apps
         "src.users",
         "src.memberships",
+        "src.images",
     )
 
     # https://docs.djangoproject.com/en/2.0/topics/http/middleware/
@@ -76,8 +77,8 @@ class Common(Configuration):
     )
 
     # Media files
-    MEDIA_ROOT = join(os.path.dirname(BASE_DIR), "media")
-    MEDIA_URL = "/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "data/")  # 'data' is my media folder
+    MEDIA_URL = "/"
 
     TEMPLATES = [
         {
@@ -190,3 +191,5 @@ class Common(Configuration):
             "rest_framework.authentication.TokenAuthentication",
         ),
     }
+
+    IMAGES_ALLOWED_EXTENSIONS = ["png", "jpg"]
