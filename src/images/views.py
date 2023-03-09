@@ -13,6 +13,7 @@ from src.images.serializers import (
 from src.images.services.expiring_link import ExpiringLinkService
 from src.images.services.image import ImageUploadService
 from src.images.utils import generate_expiring_link
+from src.memberships.models import Membership
 
 
 class PictureUpload(APIView):
@@ -40,6 +41,11 @@ class PictureList(APIView):
 
 class GenerateExpiringLink(APIView):
     def post(self, request):
+        permissions = Membership.get_user_permissions(request.user)
+
+        if not permissions.filter(codename="custom_generate_expired_link"):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
         serializer = ExpiringLinkSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

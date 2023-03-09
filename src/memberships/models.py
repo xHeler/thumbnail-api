@@ -23,5 +23,16 @@ class Membership(models.Model):
 
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
 
+    def get_user_permissions(user):
+        try:
+            membership = Membership.objects.get(user=user)
+        except Membership.DoesNotExist:
+            membership = None
+            return None
+        plan = membership.plan
+        if plan:
+            return plan.permissions.all()
+        return None
+
     def __str__(self):
         return f"Membership ({self.plan.name}) {self.user}"

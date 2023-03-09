@@ -12,17 +12,6 @@ class ImageUploadService:
         self.user = user
         self.image_data = image_data
 
-    def _get_user_permissions(self):
-        try:
-            membership = Membership.objects.get(user=self.user)
-        except Membership.DoesNotExist:
-            membership = None
-            return None
-        plan = membership.plan
-        if plan:
-            return plan.permissions.all()
-        return None
-
     def _get_sizes(self, permissions):
         sizes = [Size.objects.get(codename=p.codename) for p in permissions]
         return sizes
@@ -42,7 +31,7 @@ class ImageUploadService:
         return image
 
     def create(self):
-        permissions = self._get_user_permissions()
+        permissions = Membership.get_user_permissions(self.user)
         image = self._create_image(self._get_sizes(permissions))
         image_serializer = ImageDetailSerializer(image)
         return image_serializer.data
