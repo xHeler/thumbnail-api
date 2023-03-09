@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.dispatch import receiver
 
+from src.images.models.base import BaseModel
 from src.images.utils import (
     file_generate_upload_path,
     get_image_validators,
@@ -9,7 +10,7 @@ from src.images.utils import (
 )
 
 
-class Thumbnail(models.Model):
+class Thumbnail(BaseModel):
     image = models.ImageField(
         upload_to=file_generate_upload_path, validators=[get_image_validators()]
     )
