@@ -18,6 +18,7 @@ services:
       - DJANGO_SUPERUSER_PASSWORD
       - DJANGO_SUPERUSER_EMAIL
       - DJANGO_SUPERUSER_USERNAME
+      - APP_DOMAIN
     build: 
       context: .
       dockerfile: docker/local.Dockerfile
