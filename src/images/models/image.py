@@ -12,13 +12,16 @@ class Image(BaseModel):
         super(Image, self).save(*args, **kwargs)
 
     @property
+    def urls_dict(self):
+        return [thumbnail.url_dict for thumbnail in self.thumbnail_set.all()]
+
+    @property
     def urls(self):
-        # TODO return thumbnails urls as dict
-        urls = []
-        thumbnails = self.thumbnail_set.all()
-        for thumbnail in thumbnails:
-            urls.append(thumbnail.url)
-        return urls
+        return [thumbnail.url for thumbnail in self.thumbnail_set.all()]
+
+    @property
+    def get_thumbnails(self):
+        return self.thumbnail_set.all()
 
     class Meta:
         permissions = [

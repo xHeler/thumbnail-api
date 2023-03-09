@@ -1,11 +1,14 @@
+import base64
 import pathlib
 import sys
+from datetime import datetime, timedelta
 from io import BytesIO
 from uuid import uuid4
 
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.validators import FileExtensionValidator
+from django.urls import reverse
 from PIL import Image
 
 
@@ -36,4 +39,17 @@ def get_resized_image(orginal, size):
         "image/jpeg",
         sys.getsizeof(output),
         None,
+    )
+
+
+def generate_expiring_link(request, media_file_url, time):
+    length = len(settings.APP_DOMAIN) + 1
+    url = media_file_url[length:]
+    current_time = datetime.utcnow()
+    exp_time = current_time + timedelta(seconds=time)
+    encoded_data = base64.urlsafe_b64encode(
+        f"{url}|{exp_time.isoformat()}".encode()
+    ).decode()
+    return request.build_absolute_uri(
+        reverse("media-view") + f"?encoded_data={encoded_data}"
     )

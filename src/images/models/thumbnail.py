@@ -38,6 +38,11 @@ class Thumbnail(BaseModel):
     @property
     def url(self):
         # TODO ADD S3 URL
+        return f"{settings.APP_DOMAIN}{self.image_file.url}"
+
+    @property
+    def url_dict(self):
+        # TODO ADD S3 URL
         url = f"{settings.APP_DOMAIN}{self.image_file.url}"
         if self.height > 0:
             key = f"{self.width}x{self.height}"

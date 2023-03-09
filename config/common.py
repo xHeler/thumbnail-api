@@ -194,3 +194,5 @@ class Common(Configuration):
     }
 
     IMAGES_ALLOWED_EXTENSIONS = ["png", "jpg"]
+    EXPIRING_LINK__TIME_MIN = 300
+    EXPIRING_LINK__TIME_MAX = 30000

@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import serializers
 
 from .models.image import Image
@@ -17,12 +18,19 @@ class ImageUploadSerializer(serializers.ModelSerializer):
 
 
 class ImageDetailSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source="owner.username", read_only=True)
-
     class Meta:
         model = Image
         fields = (
             "id",
-            "username",
-            "urls",
+            "created_at",
+            "updated_at",
+            "urls_dict",
         )
+
+
+class ExpiringLinkSerializer(serializers.Serializer):
+    url = serializers.URLField(allow_blank=False)
+    time = serializers.IntegerField(
+        min_value=settings.EXPIRING_LINK__TIME_MIN,
+        max_value=settings.EXPIRING_LINK__TIME_MAX,
+    )
