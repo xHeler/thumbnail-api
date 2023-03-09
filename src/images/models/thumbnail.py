@@ -19,9 +19,15 @@ class Thumbnail(BaseModel):
         get_user_model(), null=True, on_delete=models.SET_NULL
     )
 
+    height = models.PositiveIntegerField(default=0, blank=True, null=True)
+    width = models.PositiveIntegerField(default=0, blank=True, null=True)
+
     def save(self, *args, **kwargs):
-        size = (125, 125)
-        self.image = get_resized_image(self.image, size)
+        size = (self.width, self.height)
+        if size[0] > 0 and size[1] > 0:
+            resized_image = get_resized_image(self.image, size)
+            self.image.delete(False)
+            self.image = resized_image
         super(Thumbnail, self).save(*args, **kwargs)
 
 

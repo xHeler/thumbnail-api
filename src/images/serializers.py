@@ -1,18 +1,11 @@
-from django.conf import settings
-from django.core.validators import FileExtensionValidator
 from rest_framework import serializers
 
 from .models.thumbnail import Thumbnail
+from .utils import get_image_validators
 
 
 class ImageUploadSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(
-        validators=[
-            FileExtensionValidator(
-                allowed_extensions=settings.IMAGES_ALLOWED_EXTENSIONS
-            )
-        ]
-    )
+    image = serializers.ImageField(validators=[get_image_validators()])
 
     class Meta:
         model = Thumbnail
