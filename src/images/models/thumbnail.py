@@ -5,8 +5,11 @@ from django.dispatch import receiver
 
 from src.images.models.base import BaseModel
 from src.images.models.image import Image
-from src.images.utils import (file_generate_upload_path, get_image_validators,
-                              get_resized_image)
+from src.images.utils import (
+    file_generate_upload_path,
+    get_image_validators,
+    get_resized_image,
+)
 
 
 class Thumbnail(BaseModel):

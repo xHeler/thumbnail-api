@@ -6,7 +6,6 @@ from django.views.generic.base import RedirectView
 from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
 
-from src.images.views import UploadPicture
 from src.users.views import UserCreateViewSet, UserViewSet
 
 router = DefaultRouter()
@@ -16,7 +15,7 @@ router.register(r"users", UserCreateViewSet)
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", include(router.urls)),
-    path("api/v1/upload/", UploadPicture.as_view()),
+    path("api/v1/images/", include("src.images.urls")),
     path("api-token-auth/", views.obtain_auth_token),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     # the 'api-root' from django rest-frameworks default router
