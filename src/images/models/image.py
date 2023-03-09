@@ -1,12 +1,11 @@
-from src.images.models.base import BaseModel
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from src.images.models.base import BaseModel
+
 
 class Image(BaseModel):
-    owner = models.ForeignKey(
-        get_user_model(), null=True, on_delete=models.SET_NULL
-    )
+    owner = models.ForeignKey(get_user_model(), null=True, on_delete=models.SET_NULL)
 
     def save(self, *args, **kwargs):
         # TODO check user permissions and create thubnails depends on it
