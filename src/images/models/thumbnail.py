@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.dispatch import receiver
 
+from src.images.enums import FileUploadStorage
 from src.images.models.base import BaseModel
 from src.images.models.image import Image
 from src.images.utils import (
@@ -37,13 +38,17 @@ class Thumbnail(BaseModel):
 
     @property
     def url(self):
-        # TODO ADD S3 URL
+        if settings.FILE_UPLOAD_STORAGE == FileUploadStorage.S3.value:
+            return f"{self.image_file.url}"
         return f"{settings.APP_DOMAIN}{self.image_file.url}"
 
     @property
     def url_dict(self):
-        # TODO ADD S3 URL
-        url = f"{settings.APP_DOMAIN}{self.image_file.url}"
+        owner_id = self.uploaded_by.id
+        if settings.FILE_UPLOAD_STORAGE == FileUploadStorage.S3.value:
+            url = f"{self.image_file.url}"
+        else:
+            url = f"{settings.APP_DOMAIN}/{owner_id}/{self.image_file.url}"
         if self.height > 0:
             key = f"{self.width}x{self.height}"
             return {key: url}

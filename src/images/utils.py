@@ -30,6 +30,7 @@ def get_resized_image(orginal, size):
     image = Image.open(orginal)
     output = BytesIO()
     image = image.resize(size)
+
     image.save(output, format="JPEG", quality=100)
     output.seek(0)
     return InMemoryUploadedFile(

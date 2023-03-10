@@ -19,6 +19,13 @@ services:
       - DJANGO_SUPERUSER_EMAIL
       - DJANGO_SUPERUSER_USERNAME
       - APP_DOMAIN
+      - FILE_UPLOAD_STORAGE
+      - AWS_S3_ACCESS_KEY_ID
+      - AWS_S3_SECRET_ACCESS_KEY
+      - AWS_STORAGE_BUCKET_NAME
+      - AWS_S3_REGION_NAME
+      - AWS_S3_CUSTOM_DOMAIN
+      - FILE_MAX_SIZE
     build: 
       context: .
       dockerfile: docker/local.Dockerfile

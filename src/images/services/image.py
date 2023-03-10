@@ -19,6 +19,7 @@ class ImageUploadService:
     def _create_image(self, sizes):
         image = Image(owner=self.user)
         image.save()
+
         for size in sizes:
             thumbnail = Thumbnail(
                 image_file=deepcopy(self.image_data),
