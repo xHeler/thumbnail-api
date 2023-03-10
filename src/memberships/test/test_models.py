@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from src.images.tests.factories import PermissionFactory
+from src.images.test.factories import PermissionFactory
 from src.memberships.models import Membership, Plan
 from src.users.test.factories import UserFactory
 

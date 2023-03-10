@@ -1,7 +1,7 @@
 import factory
 from django.contrib.auth import get_user_model
 
-from src.images.tests.factories import PermissionFactory
+from src.images.test.factories import PermissionFactory
 from src.memberships.models import Membership, Plan
 
 
