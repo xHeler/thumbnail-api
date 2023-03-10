@@ -44,11 +44,10 @@ class Thumbnail(BaseModel):
 
     @property
     def url_dict(self):
-        owner_id = self.uploaded_by.id
         if settings.FILE_UPLOAD_STORAGE == FileUploadStorage.S3.value:
             url = f"{self.image_file.url}"
         else:
-            url = f"{settings.APP_DOMAIN}/{owner_id}/{self.image_file.url}"
+            url = f"{settings.APP_DOMAIN}{self.image_file.url}"
         if self.height > 0:
             key = f"{self.width}x{self.height}"
             return {key: url}
