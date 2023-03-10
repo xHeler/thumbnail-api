@@ -3,7 +3,7 @@ from copy import deepcopy
 from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.generics import GenericAPIView
+from rest_framework.views import APIView
 
 from src.images.enums import FileUploadStorage
 from src.images.integrations import s3_generate_presigned_url
@@ -19,7 +19,7 @@ from src.images.utils import generate_expiring_link
 from src.memberships.models import Membership
 
 
-class PictureUpload(GenericAPIView):
+class PictureUpload(APIView):
     serializer_class = ImageUploadSerializer
 
     def post(self, request):
@@ -35,7 +35,7 @@ class PictureUpload(GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class PictureList(GenericAPIView):
+class PictureList(APIView):
     def get(self, request):
         images = Image.objects.filter(owner=request.user)
         if not images:
@@ -44,7 +44,7 @@ class PictureList(GenericAPIView):
         return Response(serializer.data)
 
 
-class GenerateExpiringLink(GenericAPIView):
+class GenerateExpiringLink(APIView):
     def post(self, request):
         permissions = Membership.get_user_permissions(request.user)
 
@@ -67,7 +67,7 @@ class GenerateExpiringLink(GenericAPIView):
         return Response({"expiring_link": link})
 
 
-class ExpiringLink(GenericAPIView):
+class ExpiringLink(APIView):
     def get(self, request):
         if settings.FILE_UPLOAD_STORAGE == FileUploadStorage.S3.value:
             return Response(status=status.HTTP_404_NOT_FOUND)
