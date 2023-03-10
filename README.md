@@ -65,9 +65,13 @@ Generate temporary link to uploaded image using url.
 `POST` /api/v1/images/generate_expiring_link/
 
 **Example POST**:
+
+**url** - link to thumbnail 
+
+**time** - time in second to expire
 ```json
 {
-"url": "http://127.0.0.1:8000/<user_id>/<image_name>", // url to image
-"time": 300 // expiring time
+"url": "http://127.0.0.1:8000/<user_id>/<image_name>",
+"time": 300
 }
 ```
