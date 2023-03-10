@@ -1,9 +1,12 @@
 from copy import deepcopy
 
+from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from src.images.enums import FileUploadStorage
+from src.images.integrations import s3_generate_presigned_url
 from src.images.models.image import Image
 from src.images.serializers import (
     ExpiringLinkSerializer,
@@ -52,9 +55,14 @@ class GenerateExpiringLink(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        link = generate_expiring_link(
-            request, serializer.data["url"], serializer.data["time"]
-        )
+        if settings.FILE_UPLOAD_STORAGE == FileUploadStorage.S3.value:
+            link = s3_generate_presigned_url(
+                serializer.data["url"], serializer.data["time"]
+            )
+        if settings.FILE_UPLOAD_STORAGE == FileUploadStorage.LOCAL.value:
+            link = generate_expiring_link(
+                request, serializer.data["url"], serializer.data["time"]
+            )
 
         return Response({"expiring_link": link})
 
