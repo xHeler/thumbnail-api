@@ -13,17 +13,38 @@ class SizeForm(ModelForm):
 
 
 @admin.register(Size)
-class ImageAdmin(admin.ModelAdmin):
-    list_display = [
+class SizeAdmin(admin.ModelAdmin):
+    list_display = (
         "name",
         "codename",
-    ]
+    )
 
     form = SizeForm
 
     ordering = ["height"]
 
 
-admin.site.register(Image)
-# DELETE MUST
-admin.site.register(Thumbnail)
+@admin.register(Thumbnail)
+class ThumbnailAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "get_height",
+        "url",
+    )
+
+    search_fields = ("orginal_image__id",)
+
+    def get_height(self, thumbnail):
+        if thumbnail.height == 0:
+            return "Original"
+        return thumbnail.height
+
+
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "owner",
+    )
+
+    search_fields = ("owner__username",)

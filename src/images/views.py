@@ -26,6 +26,8 @@ class PictureUpload(APIView):
         if serializer.is_valid():
             service = ImageUploadService(request.user, request.FILES["image_file"])
             info = service.create()
+            if not info:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
             return Response(info, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

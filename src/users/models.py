@@ -19,3 +19,8 @@ class User(AbstractUser):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+        from src.memberships.models import Membership, Plan
+
+        plan = Plan.get_default_plan()
+        if plan:
+            Membership.objects.create(user=instance, plan=plan)

@@ -12,6 +12,14 @@ class Plan(models.Model):
         blank=True,
     )
 
+    @classmethod
+    def get_default_plan(cls):
+        try:
+            return_value = cls.objects.get(default=True)
+        except cls.DoesNotExist:
+            return_value = None
+        return return_value
+
     def __str__(self):
         if self.default:
             return f"Plan (DEFAULT) {self.name}"

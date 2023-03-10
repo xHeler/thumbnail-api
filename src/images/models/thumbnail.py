@@ -49,6 +49,9 @@ class Thumbnail(BaseModel):
             return {key: url}
         return {"orginal": url}
 
+    def __str__(self):
+        return f"Thumbnail {self.id} - {self.uploaded_by}"
+
 
 @receiver(models.signals.post_delete, sender=Thumbnail)
 def delete_image_file(sender, instance, **kwargs):

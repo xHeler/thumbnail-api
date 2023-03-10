@@ -32,6 +32,8 @@ class ImageUploadService:
 
     def create(self):
         permissions = Membership.get_user_permissions(self.user)
+        if not permissions:
+            return None
         image = self._create_image(self._get_sizes(permissions))
         image_serializer = ImageDetailSerializer(image)
         return image_serializer.data
