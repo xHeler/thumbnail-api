@@ -193,17 +193,19 @@ class Common(Configuration):
     EXPIRING_LINK__TIME_MAX = 30000
 
     # files and media
-    FILE_UPLOAD_STORAGE = os.getenv('FILE_UPLOAD_STORAGE', default='local')  # local | s3
-    FILE_MAX_SIZE = os.getenv('FILE_MAX_SIZE', default=10485760)    # 10MiB
+    FILE_UPLOAD_STORAGE = os.getenv(
+        "FILE_UPLOAD_STORAGE", default="local"
+    )  # local | s3
+    FILE_MAX_SIZE = os.getenv("FILE_MAX_SIZE", default=10485760)  # 10MiB
 
     # Media files
     if FILE_UPLOAD_STORAGE == "local":
-        MEDIA_ROOT_NAME = "media"
+        MEDIA_ROOT_NAME = "media/"
         MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_ROOT_NAME)
-        MEDIA_URL = f"/{MEDIA_ROOT_NAME}/"
+        MEDIA_URL = "/"
 
     if FILE_UPLOAD_STORAGE == "s3":
-        DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+        DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
         AWS_S3_ACCESS_KEY_ID = os.getenv("AWS_S3_ACCESS_KEY_ID")
         AWS_S3_SECRET_ACCESS_KEY = os.getenv("AWS_S3_SECRET_ACCESS_KEY")
@@ -213,7 +215,9 @@ class Common(Configuration):
 
         AWS_DEFAULT_ACL = os.getenv("AWS_DEFAULT_ACL", default="private")
 
-        AWS_PRESIGNED_EXPIRY = int(os.getenv("AWS_PRESIGNED_EXPIRY", default=10))  # seconds
-        AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
+        AWS_PRESIGNED_EXPIRY = int(
+            os.getenv("AWS_PRESIGNED_EXPIRY", default=10)
+        )  # seconds
+        AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN")
 
-    APP_DOMAIN = os.getenv('APP_DOMAIN', default='http://localhost:8000')
+    APP_DOMAIN = os.getenv("APP_DOMAIN", default="http://localhost:8000")

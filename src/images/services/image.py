@@ -13,7 +13,14 @@ class ImageUploadService:
         self.image_data = image_data
 
     def _get_sizes(self, permissions):
-        sizes = [Size.objects.filter(codename=p.codename)[0] for p in permissions]
+        sizes = []
+        for p in permissions:
+            try:
+                size = Size.objects.filter(codename=p.codename)
+            except Size.DoesNotExist:
+                size = None
+            if len(size) > 0:
+                sizes.append(size[0])
         return sizes
 
     def _create_image(self, sizes):
