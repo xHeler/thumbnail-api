@@ -69,6 +69,9 @@ class GenerateExpiringLink(APIView):
 
 class ExpiringLink(APIView):
     def get(self, request):
+        if settings.FILE_UPLOAD_STORAGE == FileUploadStorage.S3.value:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         encoded_data = request.query_params.get("encoded_data", None)
         if not encoded_data:
             return Response("Not encoded_data", status=status.HTTP_400_NOT_FOUND)

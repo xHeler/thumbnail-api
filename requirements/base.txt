@@ -33,3 +33,4 @@ coverage==7.2.1
 
 # Utils
 setuptools==58
+drf-yasg==1.21.5

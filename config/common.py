@@ -20,6 +20,7 @@ class Common(Configuration):
         "rest_framework",  # utilities for rest apis
         "rest_framework.authtoken",  # token authentication
         "django_filters",  # for filtering rest endpoints
+        "drf_yasg",  # for documentation
         # Your apps
         "src.users",
         "src.memberships",
@@ -172,6 +173,7 @@ class Common(Configuration):
 
     # Django Rest Framework
     REST_FRAMEWORK = {
+        "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
         "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
         "PAGE_SIZE": int(os.getenv("DJANGO_PAGINATION_LIMIT", 10)),
         "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S%z",
