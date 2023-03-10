@@ -1,4 +1,10 @@
-# recruitment_django
+# Recruitment task
+# Techstack
+- Django
+- Django Rest Framework
+- AWS S3
+- AWS CloudFront
+- PostgreSQL
 
 # Demo
 Here will be link to demo :)
@@ -22,4 +28,46 @@ Run a command inside the docker container:
 
 ```bash
 docker compose run --rm web [command]
+```
+
+# List images
+List all users images include thumbnails.
+
+`GET` /api/v1/images/
+
+# Upload image
+Upload image file.
+
+
+`POST` /api/v1/images/upload/
+
+**Example response**:
+```json
+{
+    "id": "a21cb51c-555e-4cc3-8548-74845e386ff5",
+    "created_at": "2023-03-10T15:12:43+0000",
+    "updated_at": "2023-03-10T15:12:43+0000",
+    "urls_dict": [
+        {
+            "200x200": "127.0.0.1/<user_id>/<uui4>.jpg"
+        },
+        {
+            "orginal": "127.0.0.1/<user_id>/<uui4>.jpg"
+        }
+    ]
+}
+```
+
+# Generate expiring link
+Generate temporary link to uploaded image using url.
+
+
+`POST` /api/v1/images/generate_expiring_link/
+
+**Example POST**:
+```json
+{
+"url": "http://127.0.0.1:8000/<user_id>/<image_name>", // url to image
+"time": 300 // expiring time
+}
 ```
