@@ -1,13 +1,15 @@
 # Recruitment task
+Images API.
+
+# Demo
+[LINK TO DEMO](http://52.2.28.62/)
+
 # Techstack
 - Django
 - Django Rest Framework
 - AWS S3
 - AWS CloudFront
 - PostgreSQL
-
-# Demo
-Here will be link to demo :)
 
 # Prerequisites
 
