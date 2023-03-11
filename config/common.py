@@ -3,223 +3,226 @@ from distutils.util import strtobool
 from os.path import join
 
 import dj_database_url
-from configurations import Configuration
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-class Common(Configuration):
-    INSTALLED_APPS = (
-        "django.contrib.admin",
-        "django.contrib.auth",
-        "django.contrib.contenttypes",
-        "django.contrib.sessions",
-        "django.contrib.messages",
-        "django.contrib.staticfiles",
-        # Third party apps
-        "rest_framework",  # utilities for rest apis
-        "rest_framework.authtoken",  # token authentication
-        "django_filters",  # for filtering rest endpoints
-        "drf_yasg",  # for documentation
-        # Your apps
-        "src.users",
-        "src.memberships",
-        "src.images",
-    )
+INSTALLED_APPS = (
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    # Third party apps
+    "rest_framework",  # utilities for rest apis
+    "rest_framework.authtoken",  # token authentication
+    "django_filters",  # for filtering rest endpoints
+    "drf_yasg",  # for documentation
+    # Your apps
+    "src.users",
+    "src.memberships",
+    "src.images",
+)
 
-    # https://docs.djangoproject.com/en/2.0/topics/http/middleware/
-    MIDDLEWARE = (
-        "django.middleware.security.SecurityMiddleware",
-        "django.contrib.sessions.middleware.SessionMiddleware",
-        "django.middleware.common.CommonMiddleware",
-        "django.middleware.csrf.CsrfViewMiddleware",
-        "django.contrib.auth.middleware.AuthenticationMiddleware",
-        "django.contrib.messages.middleware.MessageMiddleware",
-        "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    )
+# https://docs.djangoproject.com/en/2.0/topics/http/middleware/
+MIDDLEWARE = (
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+)
 
-    ALLOWED_HOSTS = ["*"]
-    ROOT_URLCONF = "config.urls"
-    SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
-    WSGI_APPLICATION = "config.wsgi.application"
+ALLOWED_HOSTS = ["*"]
+ROOT_URLCONF = "config.urls"
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+WSGI_APPLICATION = "config.wsgi.application"
 
-    # Email
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# Email
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-    ADMINS = (("Author", "kwiatkowsky.kontakt@gmail.com"),)
+ADMINS = (("Author", "kwiatkowsky.kontakt@gmail.com"),)
 
-    # Postgres
-    DATABASES = {
-        "default": dj_database_url.config(
-            default="postgres://postgres:@postgres:5432/postgres",
-            conn_max_age=int(os.getenv("POSTGRES_CONN_MAX_AGE", 600)),
-        )
-    }
+# Postgres
+DATABASES = {
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'NAME': os.getenv("DATABASE_NAME"),
+    'USER': os.getenv("DATABASE_USER"),
+    'PASSWORD': os.getenv("DATABASE_PASSWORD"),
+    'HOST': os.getenv("DATABASE_HOST"),
+    'PORT': os.getenv("DATABASE_PORT"),
+  }
+}
 
-    # General
-    APPEND_SLASH = False
-    TIME_ZONE = "UTC"
-    LANGUAGE_CODE = "en-us"
-    # If you set this to False, Django will make some optimizations so as not
-    # to load the internationalization machinery.
-    USE_I18N = False
-    USE_L10N = True
-    USE_TZ = True
-    LOGIN_REDIRECT_URL = "/"
 
-    # Static files (CSS, JavaScript, Images)
-    # https://docs.djangoproject.com/en/2.0/howto/static-files/
-    STATIC_ROOT = os.path.normpath(join(os.path.dirname(BASE_DIR), "static"))
-    STATICFILES_DIRS = []
-    STATIC_URL = "/static/"
-    STATICFILES_FINDERS = (
-        "django.contrib.staticfiles.finders.FileSystemFinder",
-        "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    )
+# General
+APPEND_SLASH = False
+TIME_ZONE = "UTC"
+LANGUAGE_CODE = "en-us"
+# If you set this to False, Django will make some optimizations so as not
+# to load the internationalization machinery.
+USE_I18N = False
+USE_L10N = True
+USE_TZ = True
+LOGIN_REDIRECT_URL = "/"
 
-    TEMPLATES = [
-        {
-            "BACKEND": "django.template.backends.django.DjangoTemplates",
-            "DIRS": STATICFILES_DIRS,
-            "APP_DIRS": True,
-            "OPTIONS": {
-                "context_processors": [
-                    "django.template.context_processors.debug",
-                    "django.template.context_processors.request",
-                    "django.contrib.auth.context_processors.auth",
-                    "django.contrib.messages.context_processors.messages",
-                ],
-            },
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.0/howto/static-files/
+STATIC_ROOT = os.path.normpath(join(os.path.dirname(BASE_DIR), "static"))
+STATICFILES_DIRS = []
+STATIC_URL = "/static/"
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+)
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": STATICFILES_DIRS,
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
         },
-    ]
+    },
+]
 
-    # Set DEBUG to False as a default for safety
-    # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-    DEBUG = strtobool(os.getenv("DJANGO_DEBUG", "no"))
+# Set DEBUG to False as a default for safety
+# https://docs.djangoproject.com/en/dev/ref/settings/#debug
+DEBUG = strtobool(os.getenv("DJANGO_DEBUG", "no"))
 
-    # Password Validation
-    # https://docs.djangoproject.com/en/2.0/topics/auth/passwords/#module-django.contrib.auth.password_validation
-    AUTH_PASSWORD_VALIDATORS = [
-        {
-            "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+# Password Validation
+# https://docs.djangoproject.com/en/2.0/topics/auth/passwords/#module-django.contrib.auth.password_validation
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
+]
+
+# Logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "django.server": {
+            "()": "django.utils.log.ServerFormatter",
+            "format": "[%(server_time)s] %(message)s",
         },
-        {
-            "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"
         },
-        {
-            "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "simple": {"format": "%(levelname)s %(message)s"},
+    },
+    "filters": {
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
         },
-        {
-            "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
+    "handlers": {
+        "django.server": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "django.server",
         },
-    ]
-
-    # Logging
-    LOGGING = {
-        "version": 1,
-        "disable_existing_loggers": False,
-        "formatters": {
-            "django.server": {
-                "()": "django.utils.log.ServerFormatter",
-                "format": "[%(server_time)s] %(message)s",
-            },
-            "verbose": {
-                "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"
-            },
-            "simple": {"format": "%(levelname)s %(message)s"},
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
         },
-        "filters": {
-            "require_debug_true": {
-                "()": "django.utils.log.RequireDebugTrue",
-            },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
         },
-        "handlers": {
-            "django.server": {
-                "level": "INFO",
-                "class": "logging.StreamHandler",
-                "formatter": "django.server",
-            },
-            "console": {
-                "level": "DEBUG",
-                "class": "logging.StreamHandler",
-                "formatter": "simple",
-            },
-            "mail_admins": {
-                "level": "ERROR",
-                "class": "django.utils.log.AdminEmailHandler",
-            },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "propagate": True,
         },
-        "loggers": {
-            "django": {
-                "handlers": ["console"],
-                "propagate": True,
-            },
-            "django.server": {
-                "handlers": ["django.server"],
-                "level": "INFO",
-                "propagate": False,
-            },
-            "django.request": {
-                "handlers": ["mail_admins", "console"],
-                "level": "ERROR",
-                "propagate": False,
-            },
-            "django.db.backends": {"handlers": ["console"], "level": "INFO"},
+        "django.server": {
+            "handlers": ["django.server"],
+            "level": "INFO",
+            "propagate": False,
         },
-    }
+        "django.request": {
+            "handlers": ["mail_admins", "console"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        "django.db.backends": {"handlers": ["console"], "level": "INFO"},
+    },
+}
 
-    # Custom user app
-    AUTH_USER_MODEL = "users.User"
+# Custom user app
+AUTH_USER_MODEL = "users.User"
 
-    # Django Rest Framework
-    REST_FRAMEWORK = {
-        "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
-        "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-        "PAGE_SIZE": int(os.getenv("DJANGO_PAGINATION_LIMIT", 10)),
-        "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S%z",
-        "DEFAULT_RENDERER_CLASSES": (
-            "rest_framework.renderers.JSONRenderer",
-            "rest_framework.renderers.BrowsableAPIRenderer",
-        ),
-        "DEFAULT_PERMISSION_CLASSES": [
-            "rest_framework.permissions.IsAuthenticated",
-        ],
-        "DEFAULT_AUTHENTICATION_CLASSES": (
-            "rest_framework.authentication.SessionAuthentication",
-            "rest_framework.authentication.TokenAuthentication",
-        ),
-    }
+# Django Rest Framework
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": int(os.getenv("DJANGO_PAGINATION_LIMIT", 10)),
+    "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S%z",
+    "DEFAULT_RENDERER_CLASSES": (
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+}
 
-    IMAGES_ALLOWED_EXTENSIONS = ["png", "jpg"]
-    EXPIRING_LINK__TIME_MIN = 300
-    EXPIRING_LINK__TIME_MAX = 30000
+IMAGES_ALLOWED_EXTENSIONS = ["png", "jpg"]
+EXPIRING_LINK__TIME_MIN = 300
+EXPIRING_LINK__TIME_MAX = 30000
 
-    # files and media
-    FILE_UPLOAD_STORAGE = os.getenv(
-        "FILE_UPLOAD_STORAGE", default="local"
-    )  # local | s3
-    FILE_MAX_SIZE = os.getenv("FILE_MAX_SIZE", default=10485760)  # 10MiB
+# files and media
+FILE_UPLOAD_STORAGE = os.getenv(
+    "FILE_UPLOAD_STORAGE", default="local"
+)  # local | s3
+FILE_MAX_SIZE = os.getenv("FILE_MAX_SIZE", default=10485760)  # 10MiB
 
-    # Media files
-    if FILE_UPLOAD_STORAGE == "local":
-        MEDIA_ROOT_NAME = "media/"
-        MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_ROOT_NAME)
-        MEDIA_URL = "/"
+# Media files
+if FILE_UPLOAD_STORAGE == "local":
+    MEDIA_ROOT_NAME = "media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_ROOT_NAME)
+    MEDIA_URL = "/"
 
-    if FILE_UPLOAD_STORAGE == "s3":
-        DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+if FILE_UPLOAD_STORAGE == "s3":
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-        AWS_S3_ACCESS_KEY_ID = os.getenv("AWS_S3_ACCESS_KEY_ID")
-        AWS_S3_SECRET_ACCESS_KEY = os.getenv("AWS_S3_SECRET_ACCESS_KEY")
-        AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
-        AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
-        AWS_S3_SIGNATURE_VERSION = os.getenv("AWS_S3_SIGNATURE_VERSION", default="s3v4")
+    AWS_S3_ACCESS_KEY_ID = os.getenv("AWS_S3_ACCESS_KEY_ID")
+    AWS_S3_SECRET_ACCESS_KEY = os.getenv("AWS_S3_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
+    AWS_S3_SIGNATURE_VERSION = os.getenv("AWS_S3_SIGNATURE_VERSION", default="s3v4")
 
-        AWS_DEFAULT_ACL = os.getenv("AWS_DEFAULT_ACL", default="private")
+    AWS_DEFAULT_ACL = os.getenv("AWS_DEFAULT_ACL", default="private")
 
-        AWS_PRESIGNED_EXPIRY = int(
-            os.getenv("AWS_PRESIGNED_EXPIRY", default=10)
-        )  # seconds
-        AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN")
+    AWS_PRESIGNED_EXPIRY = int(
+        os.getenv("AWS_PRESIGNED_EXPIRY", default=10)
+    )  # seconds
+    AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN")
 
-    APP_DOMAIN = os.getenv("APP_DOMAIN", default="http://localhost:8000")
+APP_DOMAIN = os.getenv("APP_DOMAIN", default="http://localhost:8000")
