@@ -1,6 +1,7 @@
 version: '3'
 services:
   web:
+    image: 794672242597.dkr.ecr.us-east-1.amazonaws.com/django-ec2:web
     restart: always
     env_file:
       - .env
@@ -9,14 +10,15 @@ services:
       dockerfile: docker/prod.Dockerfile
     volumes:
       - ./:/code
-      - static_volume:/code/static
+      - static_volume:/code/staticfiles
       - media_volume:/code/media
     ports:
       - 8000:8000
   nginx:
+    image: 794672242597.dkr.ecr.us-east-1.amazonaws.com/django-ec2:nginx
     build: ./nginx
     volumes:
-      - static_volume:/code/static
+      - static_volume:/code/staticfiles
       - media_volume:/code/media
     ports:
       - 80:80

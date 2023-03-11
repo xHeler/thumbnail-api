@@ -72,9 +72,9 @@ LOGIN_REDIRECT_URL = "/"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-STATIC_ROOT = os.path.normpath(join(os.path.dirname(BASE_DIR), "static"))
-STATICFILES_DIRS = []
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR + "/static"]
+STATIC_ROOT = BASE_DIR + "/staticfiles"
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
@@ -98,7 +98,7 @@ TEMPLATES = [
 
 # Set DEBUG to False as a default for safety
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = strtobool(os.getenv("DJANGO_DEBUG", "no"))
+DEBUG = True
 
 # Password Validation
 # https://docs.djangoproject.com/en/2.0/topics/auth/passwords/#module-django.contrib.auth.password_validation
