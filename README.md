@@ -3,6 +3,7 @@ Images API.
 
 # Demo
 [LINK TO DEMO](http://52.2.28.62/)
+admin - admin
 
 # Techstack
 - Django
