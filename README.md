@@ -1,4 +1,4 @@
-# Recruitment task
+# Thumbnail API
 Images API.
 
 # Demo
